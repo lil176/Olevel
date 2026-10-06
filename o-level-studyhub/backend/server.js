@@ -1,11 +1,16 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+const subjectRoutes = require("./routes/subjectRoutes");
+
 const app = express();
 
-app.use(cors());
 app.use(express.json());
+app.use(cors());
+
+app.use("/api/subjects", subjectRoutes);
 
 app.get("/", (req, res) => {
   res.json({
@@ -13,8 +18,17 @@ app.get("/", (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB connected successfully");
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+    const PORT = process.env.PORT || 5000;
+
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("MongoDB connection failed:", error.message);
+  });
