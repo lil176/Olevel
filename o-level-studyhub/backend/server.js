@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const subjectRoutes = require("./routes/subjectRoutes");
+const topicRoutes = require("./routes/topicRoutes");
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/subjects", subjectRoutes);
+app.use("/api/topics", topicRoutes);
 
 app.get("/", (req, res) => {
   res.json({
