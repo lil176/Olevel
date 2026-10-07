@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 interface Subject {
   _id: string;
@@ -14,15 +15,15 @@ export default function Home() {
   const [subjects, setSubjects] = useState<Subject[]>([]);
 
   useEffect(() => {
-  fetch("http://localhost:5000/api/subjects")
-    .then((response) => response.json())
-    .then((data) => {
-      setSubjects(data);
-    })
-    .catch((error) => {
-      console.error("Failed to fetch subjects:", error);
-    });
-}, []);
+    fetch("http://localhost:5000/api/subjects")
+      .then((response) => response.json())
+      .then((data) => {
+        setSubjects(data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch subjects:", error);
+      });
+  }, []);
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -30,6 +31,7 @@ export default function Home() {
       <header className="bg-blue-700 text-white">
         <div className="mx-auto max-w-6xl px-6 py-8">
           <h1 className="text-3xl font-bold">O-Level StudyHub</h1>
+
           <p className="mt-2 text-blue-100">
             Learn. Practice. Understand. Pass.
           </p>
@@ -63,12 +65,15 @@ export default function Home() {
               </h4>
 
               <p className="mt-2 text-sm text-slate-500">
-                {subject.description}
+                {subject.description || `Study ${subject.name} for O-Level.`}
               </p>
 
-              <button className="mt-5 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700">
+              <Link
+                href={`/subjects/${subject._id}`}
+                className="mt-5 inline-block rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
+              >
                 Study Subject
-              </button>
+              </Link>
             </div>
           ))}
         </div>

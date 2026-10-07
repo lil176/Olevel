@@ -5,6 +5,8 @@ require("dotenv").config();
 
 const subjectRoutes = require("./routes/subjectRoutes");
 const topicRoutes = require("./routes/topicRoutes");
+const noteRoutes = require("./routes/noteRoutes");
+const questionRoutes = require("./routes/questionRoutes");
 
 const app = express();
 
@@ -13,10 +15,12 @@ app.use(cors());
 
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/topics", topicRoutes);
+app.use("/api/notes", noteRoutes);
+app.use("/api/questions", questionRoutes);
 
 app.get("/", (req, res) => {
   res.json({
-    message: "O-Level StudyHub backend is running!"
+    message: "O-Level StudyHub backend is running!",
   });
 });
 
